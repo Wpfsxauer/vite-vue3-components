@@ -1,0 +1,116 @@
+@duration: .4s;
+@checkedColor: #FF552E;
+@ajkCheckedColor: #3bb950;
+@radius: 40px;
+
+.borderRadius(@radius) {
+    border-radius: @radius;
+    border-top-left-radius: @radius;
+    border-top-right-radius: @radius;
+    border-bottom-left-radius: @radius;
+    border-bottom-right-radius: @radius;
+}
+
+.SwitchiIputItem {
+    background-color: #ffffff;
+    padding: 0 40px;
+    height: 152px;
+    overflow: hidden;
+
+    .inputSwitch {
+        margin-left: 0;
+        margin-right: 0;
+        height: 146px;
+        line-height: 146px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+
+        .switchLeft {
+            flex: 5;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            .switchLabel {
+                text-align: left;
+                height: 44px;
+                line-height: 44px;
+                color: #666666;
+                font-size: 36px;
+                font-family: PingFangSC-Medium, PingFang SC;
+                font-weight: 500;
+            }
+
+            .switchDescribe {
+                text-align: left;
+                height: 28px;
+                line-height: 28px;
+                color: #666666;
+                font-size: 22px;
+                margin-top: 16px;
+                font-weight: 500;
+            }
+        }
+
+        .switchRight {
+            flex: 1;
+            position: relative;
+        }
+
+        .mui-switch {
+            width: 102px;
+            height: 62px;
+            position: relative;
+            border: 2px solid #dfdfdf;
+            background-color: #fdfdfd;
+            box-shadow: #dfdfdf 0 0 0 0 inset;
+            .borderRadius(@radius);
+            background-clip: content-box;
+            display: inline-block;
+            -webkit-appearance: none;
+            user-select: none;
+            outline: none;
+            transition: border cubic-bezier(0, 0, 0, 1) @duration, box-shadow cubic-bezier(0, 0, 0, 1) @duration;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto 0;
+            transition: border ease @duration, box-shadow ease @duration, background-color ease @duration*3;
+
+            &:before {
+                content: '';
+                width: 58px;
+                height: 58px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                .borderRadius(@radius);
+                background-color: #fff;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+                transition: left ease @duration;
+            }
+
+            &:checked {
+                box-shadow: @checkedColor 0 0 0 32px inset;
+                transition: border ease @duration, box-shadow ease @duration, background-color ease @duration*3;
+
+                &:before {
+                    left: 40px;
+                    transition: left @duration;
+                }
+            }
+
+            &.ajkSwitch {
+                &:checked {
+                    box-shadow: @ajkCheckedColor 0 0 0 32px inset;
+                }
+            }
+        }
+    }
+
+    .itemBbOnePX {
+        border-bottom: solid 1px #eaeaea;
+    }
+}

@@ -1,24 +1,67 @@
-# Vite + vue3 在小业主发布中的应用
+# 1、发布
 
-## 1、基于 native 业务的 H5 组件库。
+```
+npm run build
 
-### 项目背景：
+```
 
--   1、小业主发布有商铺、生意转让、写字楼、厂房四个类别，在 58 同城、安居客、58 同镇三端运行。
--   2、由于历史原因，每个类别有两套代码：58 同城一套、安居客一套，今年又支持了 58 同镇（与 58 同城共用一套代码）。
--   3、每个类别大多字段都依赖于 native 控件处理，而且使用 native 控件的重复率很高。
+# 2、主应用样式自动加载
 
-#### 业务痛点
+## 1、下载依赖
 
--   1、框架技术栈不统一。
+```
+npm i vite-plugin-style-import@1.0.1
+```
 
-    -   vue 框架:官方版、社区版 vue-property-decorator。
-    -   样式预处理器:less、ass。
+## 2、vite.config.ts plugin 配置
 
--   2、维护版本多。
--   3、一个类别增减逻辑需要处理两次，有时候同样的逻辑还不能简单的复制粘贴，因为技术栈的不统一写法稍微还有区别。
+```
+vitePluginStyleImport({
+    libs: [
+        {
+            libraryName: "app-post-components",
+            esModule: true,
+            libraryNameChangeCase: "pascalCase",
+            resolveStyle: (name) => {
+                const baseUrl = "app-post-components/dist/";
+                const nameList = [
+                    "CommonInput",
+                    "SwitchInput",
+                    "Submit",
+                ];
+                if (nameList.includes(name)) {
+                    return `${baseUrl}${name}/index.css`;
+                }
+                return `${baseUrl}CommonInput/index.css`;
+            },
+        },
+    ],
+}),
+```
 
-#### 解决思路
+## 3、main.ts 中使用
 
--   1、每个类别用一套代码解决三端运行的问题。
--   2、多个类别公有组件的抽离，一个 H5 组件处理一类 action 业务。
+```
+import {
+    CommentInput,
+    Submit,
+    BaseInput,
+    SwitchInput
+} from "app-post-components";
+
+const app = createApp(App);
+
+const components = [
+    CommentInput,
+    SwitchInput
+    Submit,
+    BaseInput,
+];
+
+for (const component of components) {
+    app.use(component);
+}
+
+app.mount("#app");
+
+```
